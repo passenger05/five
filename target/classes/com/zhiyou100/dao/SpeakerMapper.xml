@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhiyou100.dao.SpeakerDao">
+
+    <sql id="speakerParam">
+        id,name, position, imageURL,description
+    </sql>
+
+    <update id="updateSpeaker" parameterType="speaker">
+    
+        update speaker
+        set
+        name=#{name},position=#{position},imageURL=#{imageURL},description=#{description}
+        where id = #{id} 
+        
+    </update>
+
+    <insert id="addSpeaker" parameterType="speaker">
+    
+        insert into
+        speaker(name,position,imageURL,description)
+        values(#{name},#{position},#{imageURL},#{description})
+
+    </insert>
+
+    <delete id="deleteSpeaker">
+
+        update speaker set status = 1 where id = #{arg0};
+
+    </delete>
+
+    <select id="listSpeakersByPage" resultType="speaker">
+
+        select
+        <include refid="speakerParam"></include>
+        from speaker
+        where status=0 limit #{arg0},10;
+
+    </select>
+
+    <select id="getPageCount" resultType="long">
+
+        select count(*) from
+        speaker;
+
+    </select>
+
+
+</mapper>

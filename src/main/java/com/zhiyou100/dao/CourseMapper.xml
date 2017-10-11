@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhiyou100.dao.CourseDao">
+
+	<sql id="courseParam">
+		id,title, introduction, subject_id
+	</sql>
+
+	<update id="updateCourse" parameterType="course">
+
+		update course
+		set
+		title=#{title},introduction=#{introduction},subject_id=#{subjectId}
+		where id = #{id}
+	</update>
+
+	<insert id="addCourse" parameterType="course">
+	
+		insert into
+		course(title,introduction,subject_id)
+		values(#{title},#{introduction},#{subjectId})
+
+	</insert>
+
+	<update id="deleteCourse">
+
+		update course set status = 1 where id = #{arg0};
+
+	</update>
+
+	<select id="listCoursesbyPage" resultType="course">
+
+		select
+		<include refid="courseParam"></include>
+		from course  where status=0 limit #{arg0},10;
+
+	</select>
+
+	<select id="getCourse" resultType="course">
+
+		select
+		<include refid="courseParam"></include>
+		from course where id = #{arg0};
+
+	</select>
+
+	<select id="getPageCount" resultType="long">
+
+		select count(*) from
+		course;
+
+	</select>
+
+
+</mapper>
